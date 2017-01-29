@@ -1,5 +1,14 @@
 <html>
     <head>
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+        <!-- Optional theme -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
         <title> gaelic </title>
     </head>
         <script>
@@ -14,20 +23,19 @@
         }
 
         function createLI(item) {
-            var node = document.createElement("li");     
-       //     var link = document.createElement("a");           
+            var node = document.createElement("li");           
             var textnode = document.createTextNode(item.content); 
-            node.appendChild(chreateAnchor(item)); 
+            node.appendChild(chreateAnchor(item,node)); 
            return node;   
         }
 
-        function chreateAnchor(item) { 
+        function chreateAnchor(item,node) { 
             var link = document.createElement("a");  
             var textnode = document.createTextNode(item.content); 
             link.title = item.content;
             link.appendChild(textnode);
             link.href = '#';
-            link.onclick = function() { clickHandler(item.lesson) }
+            link.onclick = function() { clickHandler(item.lesson, node) }
             return link;
         }
 
@@ -43,7 +51,7 @@
         }
 
         function renderLetter(letter) {
-            var span = document.createElement('span');
+            var span = document.createElement('li');
             var audio = document.createElement('audio');
             audio.setAttribute('controls','');
             audio.setAttribute('style','display:none');
@@ -59,14 +67,94 @@
             span.append(link);
             return span;
         }
+
+     function renderWords(letters) {
+            var doc = document.getElementById("words");
+            while (doc.firstChild) {
+                doc.removeChild(doc.firstChild);
+            }
+            console.log(letters);
+        for (var i = 0 ; i < letters.list_words.word.length; i++) {
+                doc.append(renderWord(letters.list_words.word[i]));
+            }
+        }
       
-        function clickHandler(lesson) {
+       function renderWord(letter) {
+            var span = document.createElement('li');
+            var audio = document.createElement('audio');
+            audio.setAttribute('controls','');
+            audio.setAttribute('style','display:none');
+
+            audio.src = 'http://ceres.napier.ac.uk/staff/alistair/GaelicparentHelp/'+letter.sound_link;
+
+          var link = document.createElement("a");  
+            var textnode = document.createTextNode(letter.text); 
+            link.appendChild(textnode);
+            link.href = '#';
+            link.onclick = function() { toggleActive(span);  renderPhonics(letter.list_sounds.sound); audio.play(); }
+            span.append(audio);
+            span.append(link);
+            return span;
+        }
+
+
+        function clearPhonics() {
+           var doc = document.getElementById("phonics");
+            while (doc.firstChild) {
+                doc.removeChild(doc.firstChild);
+            }   
+        }
+        function renderPhonics(sounds) {
+
+            clearPhonics();
+         var doc = document.getElementById("phonics");
+          
+            console.log(letters);
+        for (var i = 0 ; i < sounds.length; i++) {
+                doc.append(renderPhonic(sounds[i]));
+            }
+
+        }
+
+    function renderPhonic(phonic) {
+            var span = document.createElement('li');
+            var audio = document.createElement('audio');
+            audio.setAttribute('controls','');
+            audio.setAttribute('style','display:none');
+
+            audio.src = 'http://ceres.napier.ac.uk/staff/alistair/GaelicparentHelp/'+phonic.sound_link;
+
+          var link = document.createElement("a");  
+            var textnode = document.createTextNode(phonic.text); 
+            link.appendChild(textnode);
+            link.href = '#';
+            link.onclick = function() { audio.play(); }
+            span.append(audio);
+            span.append(link);
+            return span;
+        }
+
+
+        function toggleActive(node) {
+            var nodes = node.parentNode.childNodes;
+            for (i = 0; i < nodes.length;i++) {
+                nodes[i].removeAttribute('class');
+            }
+            node.setAttribute('class','active');
+        }
+        function clickHandler(lesson, node) {
             renderLetters(lesson.BOX);
+            renderWords(lesson.BOX);
+            toggleActive(node);
+            clearPhonics();
+
         }
         </script>
     <body onload="renderFrontPage()">
 <audio id='greg' style='display:none' controls label ='greg' src="http://ceres.napier.ac.uk/staff/alistair/GaelicparentHelp/bogsa1_mp3/c.mp3"></audio>
-        <div id='start'></div>
-        <div id='letters'></div>
+        <div style='float: left;padding-left:10px'> <h3>Boxes</h3><ul  class="nav nav-pills nav-stacked" id='start'></ul></div>
+        <div style='float: left;padding-left:10px'><h3>Letters</h3><ul class="nav nav-pills nav-stacked" id='letters'></ul></div>
+        <div style='float: left;padding-left:10px'><h3>Words</h3><ul class="nav nav-pills nav-stacked" id='words'></ul></div>
+        <div style='float: left;padding-left:10px'><h3>Phonics</h3><ul class="nav nav-pills nav-stacked" id='phonics'></ul></div>
         </body>
         </html>
