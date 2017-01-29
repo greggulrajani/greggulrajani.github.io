@@ -18,7 +18,6 @@ function chreateAnchor(item, node) {
     var textnode = document.createTextNode(item.content);
     link.title = item.content;
     link.appendChild(textnode);
-    link.href = '#';
     link.onclick = function () { clickHandler(item.lesson, node) }
     return link;
 }
@@ -29,8 +28,10 @@ function renderLetters(letters) {
         doc.removeChild(doc.firstChild);
     }
     console.log(letters);
-    for (var i = 0; i < letters.list_letters.letter.length; i++) {
-        doc.appendChild(renderLetter(letters.list_letters.letter[i]));
+    if (letters.list_letters != "") {
+        for (var i = 0; i < letters.list_letters.letter.length; i++) {
+            doc.appendChild(renderLetter(letters.list_letters.letter[i]));
+        }
     }
 }
 
@@ -74,11 +75,10 @@ function renderWord(letter) {
     var link = document.createElement("a");
     var textnode = document.createTextNode(letter.text);
     link.appendChild(textnode);
-    link.href = '#';
-    var phonic_sounds;
+    var phonic_sounds = [];
     if (letter.list_sounds) {
         phonic_sounds = letter.list_sounds.sound;
-    } else {
+    } else if (letter.list_phonics) {
         phonic_sounds = letter.list_phonics.phonic;
     }
 
@@ -117,7 +117,6 @@ function renderPhonic(phonic) {
     var link = document.createElement("a");
     var textnode = document.createTextNode(phonic.text);
     link.appendChild(textnode);
-    link.href = '#';
     link.onclick = function () { audio.play(); }
     span.appendChild(audio);
     span.appendChild(link);
@@ -132,6 +131,7 @@ function toggleActive(node) {
     }
     node.setAttribute('class', 'active');
 }
+
 function clickHandler(lesson, node) {
     renderLetters(lesson.BOX);
     renderWords(lesson.BOX);
