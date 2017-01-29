@@ -18,7 +18,7 @@
         function renderFrontPage() {
             var doc = document.getElementById("start");
             for (var i = 0 ; i < data.ASSETS.Box.length; i++) {
-                doc.append(createLI(data.ASSETS.Box[i]));
+                doc.appendChild(createLI(data.ASSETS.Box[i]));
             }
         }
 
