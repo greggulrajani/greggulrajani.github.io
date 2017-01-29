@@ -63,8 +63,8 @@
             link.appendChild(textnode);
             link.href = '#';
             link.onclick = function() { audio.play(); }
-            span.append(audio);
-            span.append(link);
+            span.appendChild(audio);
+            span.appendChild(link);
             return span;
         }
 
@@ -75,7 +75,7 @@
             }
             console.log(letters);
         for (var i = 0 ; i < letters.list_words.word.length; i++) {
-                doc.append(renderWord(letters.list_words.word[i]));
+                doc.appendChild(renderWord(letters.list_words.word[i]));
             }
         }
       
@@ -92,8 +92,8 @@
             link.appendChild(textnode);
             link.href = '#';
             link.onclick = function() { toggleActive(span);  renderPhonics(letter.list_sounds.sound); audio.play(); }
-            span.append(audio);
-            span.append(link);
+            span.appendChild(audio);
+            span.appendChild(link);
             return span;
         }
 
@@ -111,7 +111,7 @@
           
             console.log(letters);
         for (var i = 0 ; i < sounds.length; i++) {
-                doc.append(renderPhonic(sounds[i]));
+                doc.appendChild(renderPhonic(sounds[i]));
             }
 
         }
@@ -129,8 +129,8 @@
             link.appendChild(textnode);
             link.href = '#';
             link.onclick = function() { audio.play(); }
-            span.append(audio);
-            span.append(link);
+            span.appendChild(audio);
+            span.appendChild(link);
             return span;
         }
 
