@@ -27,7 +27,6 @@ function renderLetters(letters) {
     while (doc.firstChild) {
         doc.removeChild(doc.firstChild);
     }
-    console.log(letters);
     if (letters.list_letters != "") {
         for (var i = 0; i < letters.list_letters.letter.length; i++) {
             doc.appendChild(renderLetter(letters.list_letters.letter[i]));
@@ -58,7 +57,6 @@ function renderWords(letters) {
     while (doc.firstChild) {
         doc.removeChild(doc.firstChild);
     }
-    console.log(letters);
     for (var i = 0; i < letters.list_words.word.length; i++) {
         doc.appendChild(renderWord(letters.list_words.word[i]));
     }
@@ -100,7 +98,6 @@ function renderPhonics(sounds) {
     clearPhonics();
     var doc = document.getElementById("phonics");
 
-    console.log(letters);
     for (var i = 0; i < sounds.length; i++) {
         doc.appendChild(renderPhonic(sounds[i]));
     }
