@@ -27,7 +27,7 @@ function renderLetters(letters) {
     while (doc.firstChild) {
         doc.removeChild(doc.firstChild);
     }
-    if (letters.list_letters != "") {
+    if (letters.list_letters != "" &&  letters.list_letter) {
         for (var i = 0; i < letters.list_letters.letter.length; i++) {
             doc.appendChild(renderLetter(letters.list_letters.letter[i]));
         }
